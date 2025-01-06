@@ -17,14 +17,16 @@ Route::get('/', function () {
 
 
 Route::get('/jobs', function (){
+    $jobs = Job::with('employer')->paginate(7);
+
     return view('jobs', [
-        'jobs' => Job::all()
+        'jobs' => $jobs
     ]);
 });
 
 
 Route::get('/jobs/{id}', function ($id) {
-    $job = Job::find($id);
+    $job = Job::with('employer')->find($id);
 
     if(!$job) {
         abort(404);
